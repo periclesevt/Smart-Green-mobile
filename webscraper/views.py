@@ -16,7 +16,6 @@ class StationDataViewSets(viewsets.ModelViewSet):
     @action(detail=True, methods=['GET'])
     def station_data(self, request, pk=None):
         body = request.data
-        
         data = self.webscraper.export(body.get('id', ''), body.get('data_init', ''), body.get('data_final', ''))
 
         return Response(data)

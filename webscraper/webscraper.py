@@ -65,7 +65,7 @@ class Webscraper():
     def get_estations_data_bs4(self, ID, data_init, data_end):
         # "Limpamos" a estrutura do site com o BeautifulSoup
         page_source = self.get_stations_info_selenium(ID, data_init, data_end)
-        soup = BeautifulSoup(page_source,features="xml")
+        soup = BeautifulSoup(page_source,features="lxml")
 
         # Pede para retornar a tabela existente na tag "table"
 
@@ -79,7 +79,6 @@ class Webscraper():
         table = self.get_estations_data_bs4(ID, data_init, data_end)
         df = pd.read_html(str(table), decimal=',', thousands='.')[0]
         df = pd.DataFrame(df.to_records())
-
         # Se preferir, também há como renomear o cabeçalho da planilha.
 
         New_Names = ['Index', 'Date', 'Time', 'T', 'Tmax', 'Tmin', 'RH', 'RHmax', 'RHmin', 'PtOrvalhoinst',
@@ -92,7 +91,6 @@ class Webscraper():
 
         # Substituindo os valores NaN por 0 para funcionar no SQLITE:
         df = df.fillna(0)
-
         data = []
         # Inserindo o Dataframe pandas na tabela SQLite
         for row in df.itertuples():
@@ -119,7 +117,7 @@ class Webscraper():
             }
             data.append(body)
 
-
+        self.browser.get('https://tempo.inmet.gov.br/TabelaEstacoes/')
         return data
 
     def media_dados(self,df):
