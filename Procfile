@@ -1,1 +1,1 @@
-web: gunicorn Smart&Green.wsgi
+web: gunicorn setup.wsgi
