@@ -13,13 +13,13 @@ import pandas as pd
 import os
 import sys
 
+
 class Webscraper():
     def __init__(self):
         # Endereco do driver do browser de sua preferência
-        if sys.platform.startswith('linux'):
-         s = Service(os.path.abspath("chromedriver"))
-        elif sys.platform == "win32":
-         s = Service(os.path.abspath("chromedriver.exe"))
+
+        s = Service(os.environ.get("CHROMEDRIVER_PATH"))
+ 
         # Para desabilitar a abertura de uma nova janela do browser pelo Selenium
         chrome_options = Options()
         chrome_options.add_argument("--headless")
