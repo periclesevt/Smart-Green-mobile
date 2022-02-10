@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e7765ef-3b5d-4f55-a0e5-82f93ee38b3d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="0e7765ef-3b5d-4f55-a0e5-82f93ee38b3d" name="Changes" comment="update chromedriver.exe">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chromedriver.exe" beforeDir="false" afterPath="$PROJECT_DIR$/chromedriver.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webscraper/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/webscraper/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webscraper/webscraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/webscraper/webscraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +105,25 @@
       <workItem from="1643850069925" duration="487000" />
       <workItem from="1643851870295" duration="31000" />
       <workItem from="1644369386197" duration="4601000" />
+      <workItem from="1644376066528" duration="1660000" />
+      <workItem from="1644447441041" duration="116000" />
+      <workItem from="1644455924370" duration="640000" />
     </task>
+    <task id="LOCAL-00001" summary="django error update">
+      <created>1644376266956</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1644376266956</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update chromedriver.exe">
+      <created>1644376283216</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1644376283216</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,5 +139,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="django error update" />
+    <MESSAGE value="update chromedriver.exe" />
+    <option name="LAST_COMMIT_MESSAGE" value="update chromedriver.exe" />
   </component>
 </project>
