@@ -122,7 +122,7 @@ class Webscraper():
             }
             data.append(body)
 
-
+        self.browser.get('https://tempo.inmet.gov.br/TabelaEstacoes/')
         return data
 
     def media_dados(self,df):
