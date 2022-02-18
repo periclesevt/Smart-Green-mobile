@@ -11,7 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait as W
 from selenium.webdriver.support import expected_conditions as E
 import pandas as pd
 import os
-import sys
+
 
 
 class Webscraper():
@@ -68,7 +68,7 @@ class Webscraper():
         # "Limpamos" a estrutura do site com o BeautifulSoup
         from bs4 import BeautifulSoup
         page_source = self.get_stations_info_selenium(ID, data_init, data_end)
-        soup = BeautifulSoup(page_source,features="Lxml")
+        soup = BeautifulSoup(page_source,features="lxml")
 
         # Pede para retornar a tabela existente na tag "table"
 
