@@ -1,5 +1,6 @@
 # Bibliotecas já instaladas no ambiente Python
 import time
+from typing import Type
 # Importar as funções que iremos utilizar do Selenium
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -19,6 +20,8 @@ class Webscraper():
         # Endereco do driver do browser de sua preferência
 
         s = Service(os.environ.get("CHROMEDRIVER_PATH"))
+        #s = Service(os.path.abspath("chromedriver.exe"))
+        
  
         # Para desabilitar a abertura de uma nova janela do browser pelo Selenium
         chrome_options = Options()
@@ -75,55 +78,59 @@ class Webscraper():
         return soup.find('table')
 
     def export(self, ID, data_init, data_end):
+        try:
+            # Converter a tabela html em Dataframe.
+            # Definimos como separador decimal ',' e milhar '.'
 
-        # Converter a tabela html em Dataframe.
-        # Definimos como separador decimal ',' e milhar '.'
+            table = self.get_estations_data_bs4(ID, data_init, data_end)
+            df = pd.read_html(str(table), decimal=',', thousands='.')[0]
+            df = pd.DataFrame(df.to_records())
 
-        table = self.get_estations_data_bs4(ID, data_init, data_end)
-        df = pd.read_html(str(table), decimal=',', thousands='.')[0]
-        df = pd.DataFrame(df.to_records())
+            # Se preferir, também há como renomear o cabeçalho da planilha.
 
-        # Se preferir, também há como renomear o cabeçalho da planilha.
+            New_Names = ['Index', 'Date', 'Time', 'T', 'Tmax', 'Tmin', 'RH', 'RHmax', 'RHmin', 'PtOrvalhoinst',
+                        'PtOrvalhomax', 'PtOrvalhmin',
+                        'P', 'Pmax', 'Pmin', 'u2', 'Vdir', 'Vraj', 'Rn', 'PREC'
+                        ]
 
-        New_Names = ['Index', 'Date', 'Time', 'T', 'Tmax', 'Tmin', 'RH', 'RHmax', 'RHmin', 'PtOrvalhoinst',
-                     'PtOrvalhomax', 'PtOrvalhmin',
-                     'P', 'Pmax', 'Pmin', 'u2', 'Vdir', 'Vraj', 'Rn', 'PREC'
-                     ]
+            for n in range(0, len(df.keys())):
+                df = df.rename(columns={df.keys()[n]: New_Names[n]})
 
-        for n in range(0, len(df.keys())):
-            df = df.rename(columns={df.keys()[n]: New_Names[n]})
+            # Substituindo os valores NaN por 0 para funcionar no SQLITE:
+            df = df.fillna(0)
 
-        # Substituindo os valores NaN por 0 para funcionar no SQLITE:
-        df = df.fillna(0)
+            data = []
+            # Inserindo o Dataframe pandas na tabela SQLite
+            for row in df.itertuples():
+                body = {
+                    "Date": row[2],
+                    "Time": row[3],
+                    "T": row[4],
+                    "Tmax": row[5],
+                    "Tmin": row[6],
+                    "RH": row[7],
+                    "RHmax": row[8],
+                    "RHmin": row[9],
+                    "PtOrvalhoinst": row[10],
+                    "PtOrvalhomax": row[11],
+                    "PtOrvalhomin": row[12],
+                    "P": row[13],
+                    "Pmax": row[14],
+                    "Pmin": row[15],
+                    "u2": row[16],
+                    "Vdir": row[17],
+                    "Vraj": row[18],
+                    "Rn": row[19],
+                    "PREC": row[10],
+                }
+                data.append(body)
 
-        data = []
-        # Inserindo o Dataframe pandas na tabela SQLite
-        for row in df.itertuples():
-            body = {
-                "Date": row[2],
-                "Time": row[3],
-                "T": row[4],
-                "Tmax": row[5],
-                "Tmin": row[6],
-                "RH": row[7],
-                "RHmax": row[8],
-                "RHmin": row[9],
-                "PtOrvalhoinst": row[10],
-                "PtOrvalhomax": row[11],
-                "PtOrvalhomin": row[12],
-                "P": row[13],
-                "Pmax": row[14],
-                "Pmin": row[15],
-                "u2": row[16],
-                "Vdir": row[17],
-                "Vraj": row[18],
-                "Rn": row[19],
-                "PREC": row[10],
-            }
-            data.append(body)
-
-        self.browser.get('https://tempo.inmet.gov.br/TabelaEstacoes/')
-        return data
+            self.browser.get('https://tempo.inmet.gov.br/TabelaEstacoes/')
+            print("roberta")
+            return data
+        except Exception as error:
+            self.browser.get('https://tempo.inmet.gov.br/TabelaEstacoes/')
+            raise error
 
     def media_dados(self,df):
         # Tirando a  média de colunas específicas e exibindo-as.
