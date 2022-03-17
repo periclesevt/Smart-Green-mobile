@@ -20,7 +20,7 @@ class Webscraper():
         # Endereco do driver do browser de sua preferência
 
         s = Service(os.environ.get("CHROMEDRIVER_PATH"))
-        #s = Service(os.path.abspath("chromedriver.exe"))
+        #s = Service(os.path.abspath("chromedriver"))
         
  
         # Para desabilitar a abertura de uma nova janela do browser pelo Selenium
