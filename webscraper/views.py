@@ -13,7 +13,7 @@ class StationDataViewSets(viewsets.ModelViewSet):
     serializer_class = StationdatasSerializer
     webscraper = Webscraper()
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['POST'])
     def station_data(self, request, pk=None):
         body = request.data
         data = self.webscraper.export(body.get('id', ''), body.get('data_init', ''), body.get('data_final', ''))
