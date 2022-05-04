@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from webscraper.views import StationDataViewSets
+from api.views import StationDataViewSets
 
 route = routers.DefaultRouter()
 
