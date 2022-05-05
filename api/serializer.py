@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from webscraper.models import StationDatas
+from api.models import StationDatas
 
 class StationdatasSerializer(serializers.ModelSerializer):
     class Meta:
