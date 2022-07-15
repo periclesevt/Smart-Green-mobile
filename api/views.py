@@ -22,7 +22,7 @@ class StationDataViewSets(viewsets.ModelViewSet):
                 body.get('data_final', ''),
                 body.get('id', '')
             )
-        )
+        ).json()
 
         # Extrai os valores da lista e adiciona a soma
         # ao objeto 'parsed_data'
