@@ -39,11 +39,11 @@ class StationDataViewSets(viewsets.ModelViewSet):
                     parsed_data[name] += value
 
         # Tira a media dos valores brutos adicionados na etapa anterior
-        for key, value in row.items():
+        for key, value in parsed_data.items():
             if type(value) in ['int', 'float']:
-                row[key] = value/len(row.items())
+                parsed_data[key] = value/len(parsed_data.items())
             if key == "Rn":
-                row[key] += value
+                parsed_data[key] += value
 
         return Response({
             "message": "Average day data successfully getted",
