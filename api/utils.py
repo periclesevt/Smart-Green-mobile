@@ -13,5 +13,6 @@ def parse_name(name):
         "VL_LONGITUDE": 'Longitude'
     }
     return hash.get(name)
-#Rn KJm² --> MJm²d¹
-#P mB --> kPa (divisão por 10)
+
+def isnumber(value):
+    return value.replace(".","").replace("-","",1).isnumeric()

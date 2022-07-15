@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from api.models import StationDatas
 from api.serializer import StationdatasSerializer
-from .utils import parse_name
+from .utils import parse_name,isnumber
 import requests
+
 
 # Create your views here.
 class StationDataViewSets(viewsets.ModelViewSet):
@@ -26,26 +27,38 @@ class StationDataViewSets(viewsets.ModelViewSet):
         # Extrai os valores da lista e adiciona a soma
         # ao objeto 'parsed_data'
         parsed_data = {}
-        for row in data.json():
+        for row in data:
             for key,value in row.items():
                 name = parse_name(key)
                 
                 if not name:
                     continue
-
+                if value is None:
+                    continue
+                if name == "Rn" and float(value) < 0:
+                    continue
+                
                 if name not in parsed_data:
-                    parsed_data[name] = value
-                elif type(value) in ['int', 'float']: 
-                    parsed_data[name] += value
+                    if isnumber(value):
+                        parsed_data[name] = float(value)
+                    else:
+                        parsed_data[name] = value
+                        
+                elif isnumber(value):
+                    parsed_data[name] += float(value)
+                    
 
         # Tira a media dos valores brutos adicionados na etapa anterior
-        for key, value in row.items():
-            if type(value) in ['int', 'float']:
-                row[key] = value/len(row.items())
-            if key == "Rn":
-                row[key] += value
+        #Rn KJm² --> MJm²d¹
+        #P mB --> kPa (divisão por 10)  
+
+        for key, value in parsed_data.items():
+            if isinstance(value,float) and key != "Rn":
+                print(len(data))
+                parsed_data[key] = value/len(data)
 
         return Response({
             "message": "Average day data successfully getted",
             "data": parsed_data
         })
+
