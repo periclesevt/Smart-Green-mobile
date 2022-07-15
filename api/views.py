@@ -27,7 +27,7 @@ class StationDataViewSets(viewsets.ModelViewSet):
         # Extrai os valores da lista e adiciona a soma
         # ao objeto 'parsed_data'
         parsed_data = {}
-        for row in data:
+        for row in data.json():
             for key,value in row.items():
                 name = parse_name(key)
                 
@@ -54,8 +54,7 @@ class StationDataViewSets(viewsets.ModelViewSet):
 
         for key, value in parsed_data.items():
             if isinstance(value,float) and key != "Rn":
-                print(len(data))
-                parsed_data[key] = value/len(data)
+                parsed_data[key] = value/len(data.json())
 
         return Response({
             "message": "Average day data successfully getted",
