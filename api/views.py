@@ -26,8 +26,9 @@ class StationDataViewSets(viewsets.ModelViewSet):
 
         # Extrai os valores da lista e adiciona a soma
         # ao objeto 'parsed_data'
+        field_count = {}
         parsed_data = {}
-        for row in data.json():
+        for row in data:
             for key,value in row.items():
                 name = parse_name(key)
                 
@@ -37,8 +38,9 @@ class StationDataViewSets(viewsets.ModelViewSet):
                     continue
                 if name == "Rn" and float(value) < 0:
                     continue
-                
+
                 if name not in parsed_data:
+                    field_count[name] = 0
                     if isnumber(value):
                         parsed_data[name] = float(value)
                     else:
@@ -46,15 +48,16 @@ class StationDataViewSets(viewsets.ModelViewSet):
                         
                 elif isnumber(value):
                     parsed_data[name] += float(value)
-                    
+                
+                field_count[name] += 1
 
         # Tira a media dos valores brutos adicionados na etapa anterior
         #Rn KJm² --> MJm²d¹
         #P mB --> kPa (divisão por 10)  
-
         for key, value in parsed_data.items():
             if isinstance(value,float) and key != "Rn":
-                parsed_data[key] = value/len(data.json())
+                print(field_count)
+                parsed_data[key] = value/field_count[key]
 
         return Response({
             "message": "Average day data successfully getted",
