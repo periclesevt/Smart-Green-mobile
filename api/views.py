@@ -42,6 +42,8 @@ class StationDataViewSets(viewsets.ModelViewSet):
         for key, value in row.items():
             if type(value) in ['int', 'float']:
                 row[key] = value/len(row.items())
+            if key == "Rn":
+                row[key] += value
 
         return Response({
             "message": "Average day data successfully getted",
